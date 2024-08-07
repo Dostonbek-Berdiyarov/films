@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: #010409;
+        color: #fff;
+        /* #0D1117 */
+      }
+      main {
+        flex-grow: 1;
+        background-color: #0d1117;
+      }
+      .container {
+        max-width: 1320px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      .visually-hidden {
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }
+      .site_header {
+        padding: 20px 0;
+      }
+      .header__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .list {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        margin: 0;
+        padding-left: 0;
+        list-style: none;
+      }
+      .header__link {
+        text-decoration: none;
+        font-size: 20px;
+        color: #fff;
+      }
+      .site_footer {
+        padding: 20px 0;
+      }
+      .footer__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .footer__link {
+        text-decoration: none;
+        font-size: 20px;
+        color: #fff;
+      }
+      .footer_copy {
+        color: #fff;
+      }
+      .hero {
+        padding: 30px 0;
+      }
+      .movies {
+        flex-wrap: wrap;
+        column-gap: 45px;
+        row-gap: 30px;
+      }
+      .film-items {
+        width: 286.25px;
+        padding: 10px 15.625px;
+        border-radius: 25px;
+        background-color: #010409;
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+      .film-items:hover {
+        box-shadow: 0 8px 16px rgba(255, 255, 255, 0.3);
+        transform: translateY(-10px);
+      }
+      .film-date {
+        display: block;
+        width: 35px;
+        margin: 0 auto 5px;
+        color: #000;
+        background-color: #fff;
+      }
+      .film-img {
+        margin-bottom: 10px;
+        border-radius: 20px;
+      }
+      .film-title-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5px;
+        height: 60px;
+      }
+      .film-title {
+        margin-top: 0;
+        margin-bottom: 0;
+        text-align: center;
+      }
+      .film-text-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+      }
+      .film-text {
+        margin-top: 0;
+        margin-bottom: 0;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site_header">
+      <div class="container">
+        <div class="header__wrapper">
+          <a href="./index.html">
+            <img width="60" src="./logo.svg" alt="logo" />
+          </a>
+          <nav>
+            <ul class="list">
+              <li><a class="header__link" href="#">Home</a></li>
+              <li><a class="header__link" href="#">Favorites</a></li>
+              <li><a class="header__link" href="#">Cotalogs</a></li>
+              <li><a class="header__link" href="#">Categories</a></li>
+              <li><a class="header__link" href="#">Downloaded</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <main>
+      <h1 class="visually-hidden">We have All movies</h1>
+      <h2 class="visually-hidden">Movies</h2>
+      <section class="hero">
+        <div class="container">
+          <ul id="js-movie-list" class="movies list"></ul>
+        </div>
+      </section>
+    </main>
+    <footer class="site_footer">
+      <div class="container">
+        <div class="footer__wrapper">
+          <a href="./index.html">
+            <img src="./logo.svg" width="60" alt="logo" />
+          </a>
+          <ul class="list">
+            <li><a class="footer__link" href="#">Home</a></li>
+            <li><a class="footer__link" href="#">Favorites</a></li>
+            <li><a class="footer__link" href="#">Cotalogs</a></li>
+            <li><a class="footer__link" href="#">Categories</a></li>
+            <li><a class="footer__link" href="#">Downloaded</a></li>
+          </ul>
+          <span class="footer_copy">Copyright © 2024 Uz Cinema</span>
+        </div>
+      </div>
+    </footer>
+    <script src="./films.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
