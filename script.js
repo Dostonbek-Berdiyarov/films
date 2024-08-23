@@ -1,7 +1,8 @@
 var elMovieList = document.querySelector("#js-movie-list"),
   elSearchForm = document.querySelector("#js-search-form"),
   elSearchInput = elSearchForm.querySelector("#js-search"),
-  elSearchBtn = elSearchForm.querySelector("#js-search-btn");
+  elSearchBtn = elSearchForm.querySelector("#js-search-btn"),
+  record = new webkitSpeechRecognition();
 
 elSearchForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -50,3 +51,19 @@ elSearchInput.addEventListener("input", () => {
 });
 
 displayFilms(films);
+
+elSearchBtn.addEventListener("click", () => {
+  record.start();
+  elSearchBtn.style.borderColor = "red";
+});
+record.onresult = function (evt) {
+  var result = evt.results["0"]["0"].transcript;
+  elSearchInput.value = result;
+  var filteredFilmsOnSpeach = films.filter(function (film) {
+    return film.title.match(new RegExp(elSearchInput.value, "gi"));
+  });
+  displayFilms(filteredFilmsOnSpeach);
+};
+record.onend = function () {
+  elSearchBtn.style.borderColor = "#ffffffc5";
+};
