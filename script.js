@@ -64,6 +64,22 @@ record.onresult = function (evt) {
   });
   displayFilms(filteredFilmsOnSpeach);
 };
+
+// record.onresult = function (evt) {
+//   var result = evt.results["0"]["0"].transcript;
+//   console.log(result);
+
+//   if (result == "") {
+//     record.start();
+//   } else {
+//     elSearchInput.value = result;
+//     var filteredFilmsOnSpeach = films.filter(function (film) {
+//       return film.title.match(new RegExp(elSearchInput.value, "gi"));
+//     });
+//     displayFilms(filteredFilmsOnSpeach);
+//   }
+// };
+
 record.onend = function () {
   elSearchBtn.style.borderColor = "#ffffffc5";
 };
