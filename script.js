@@ -5,7 +5,7 @@ let elMovieList = document.querySelector("#js-movie-list"),
   record = new webkitSpeechRecognition(),
   elSelect = elSearchForm.querySelector("#js-select"),
   elSelectList = elSearchForm.querySelector("#js-custom-select-list"),
-  elSelectAllItems = document.querySelectorAll(`${elSelectList} li`);
+  elSelectAllItems = elSelectList.querySelectorAll("li");
 
 elSearchForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
