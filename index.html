@@ -25,6 +25,14 @@
         flex-grow: 1;
         background-color: #0d1117;
       }
+      form {
+        margin-bottom: 50px;
+      }
+      .flex-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+      }
       .container {
         max-width: 1320px;
         width: 100%;
@@ -135,7 +143,6 @@
         display: flex;
         align-items: center;
         width: 500px;
-        margin: 0 auto 50px;
         padding: 5px 10px;
         border: 1px solid #ffffffc5;
         border-radius: 50px;
@@ -165,6 +172,69 @@
         background-repeat: no-repeat;
         background-position: center;
       }
+
+      .custom-select {
+        position: relative;
+        display: inline-block;
+        width: 200px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+
+      .select-selected {
+        background-color: transparent;
+        border: 1px solid #ffffffc5;
+        padding: 15px 10px;
+        cursor: pointer;
+        color: #ffffffc5;
+        user-select: none;
+        border-radius: 50px;
+        font-size: 24px;
+      }
+
+      .select-options {
+        display: none;
+        position: absolute;
+        background-color: #0d1117;
+        border: 1px solid #ffffffc5;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        max-height: 200px;
+        height: 200px;
+        overflow-y: auto;
+        z-index: 99;
+        border-radius: 20px;
+        scrollbar-width: none;
+      }
+      .select-options::-webkit-scrollbar {
+        display: none;
+      }
+      .select-options li {
+        padding: 10px;
+        color: #ffffffc5;
+        cursor: pointer;
+        background-color: transparent;
+        transition: background-color 0.4s ease;
+      }
+      .select-options li:hover {
+        background-color: #2c3e50;
+      }
+
+      .custom-select.active .select-options {
+        display: block;
+      }
+
+      /* <div class="custom-select">
+              <div class="select-selected">Выберите опцию</div>
+              <ul id="js-custom-select" class="select-options">
+                <li class="custom-option">Опция 1</li>
+                <li>Опция 2</li>
+                <li>Опция 3</li>
+                <li>Опция 4</li>
+              </ul>
+            </div> */
     </style>
   </head>
   <body>
@@ -192,18 +262,24 @@
       <section class="hero">
         <div class="container">
           <form id="js-search-form" autocomplete="off">
-            <div class="search__wrapper">
-              <input
-                id="js-search"
-                class="search"
-                type="search"
-                placeholder="Search"
-              />
-              <button
-                id="js-search-btn"
-                class="search__btn"
-                type="button"
-              ></button>
+            <div class="flex-box">
+              <div class="search__wrapper">
+                <input
+                  id="js-search"
+                  class="search"
+                  type="search"
+                  placeholder="Search"
+                />
+                <button
+                  id="js-search-btn"
+                  class="search__btn"
+                  type="button"
+                ></button>
+              </div>
+              <div class="custom-select">
+                <div id="js-select" class="select-selected">Select genre</div>
+                <ul id="js-custom-select-list" class="select-options"></ul>
+              </div>
             </div>
           </form>
           <ul id="js-movie-list" class="movies list"></ul>

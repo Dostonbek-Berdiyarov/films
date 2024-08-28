@@ -2,7 +2,9 @@ var elMovieList = document.querySelector("#js-movie-list"),
   elSearchForm = document.querySelector("#js-search-form"),
   elSearchInput = elSearchForm.querySelector("#js-search"),
   elSearchBtn = elSearchForm.querySelector("#js-search-btn"),
-  record = new webkitSpeechRecognition();
+  record = new webkitSpeechRecognition(),
+  elSelect = elSearchForm.querySelector("#js-select"),
+  elSelectList = elSearchForm.querySelector("#js-custom-select-list");
 
 elSearchForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -65,21 +67,82 @@ record.onresult = function (evt) {
   displayFilms(filteredFilmsOnSpeach);
 };
 
-// record.onresult = function (evt) {
-//   var result = evt.results["0"]["0"].transcript;
-//   console.log(result);
-
-//   if (result == "") {
-//     record.start();
-//   } else {
-//     elSearchInput.value = result;
-//     var filteredFilmsOnSpeach = films.filter(function (film) {
-//       return film.title.match(new RegExp(elSearchInput.value, "gi"));
-//     });
-//     displayFilms(filteredFilmsOnSpeach);
-//   }
-// };
-
 record.onend = function () {
   elSearchBtn.style.borderColor = "#ffffffc5";
 };
+
+var unicGenres = ["All"];
+
+films.forEach((item) => {
+  item.genres.forEach((answer) => {
+    if (!unicGenres.includes(answer)) {
+      unicGenres.push(answer);
+    }
+  });
+});
+
+for (const genre of unicGenres) {
+  var newSelectItem = document.createElement("li");
+  newSelectItem.textContent = genre;
+  elSelectList.appendChild(newSelectItem);
+}
+elSelect.addEventListener("MutationObserver", () => {});
+
+//  gpt select
+
+let previousSelectedOption = null;
+
+document
+  .querySelector(".select-selected")
+  .addEventListener("click", function () {
+    const selectBox = this.parentNode;
+    const optionsList = selectBox.querySelector(".select-options");
+
+    if (optionsList.children.length === 0) {
+      return; // Прерываем выполнение, если список пуст
+    }
+
+    selectBox.classList.toggle("active");
+
+    if (selectBox.classList.contains("active")) {
+      optionsList.style.maxHeight = optionsList.scrollHeight + "px";
+    } else {
+      optionsList.style.maxHeight = null;
+    }
+  });
+
+document.querySelectorAll(".select-options li").forEach(function (option) {
+  option.addEventListener("click", function () {
+    const selectBox = this.closest(".custom-select");
+    const selectedText = selectBox.querySelector(".select-selected");
+
+    // Вернуть предыдущую выбранную опцию в список
+    if (previousSelectedOption) {
+      previousSelectedOption.style.display = "block";
+    }
+
+    // Обновление текста выбранной опции
+    selectedText.textContent = this.textContent;
+
+    // Скрыть выбранную опцию
+    this.style.display = "none";
+
+    // Сохранить ссылку на текущую выбранную опцию
+    previousSelectedOption = this;
+
+    // Закрытие списка
+    selectBox.classList.remove("active");
+    selectBox.querySelector(".select-options").style.maxHeight = null;
+  });
+});
+
+document.addEventListener("click", function (event) {
+  const selectBox = document.querySelector(".custom-select");
+
+  if (!event.target.closest(".custom-select")) {
+    selectBox.classList.remove("active");
+    selectBox.querySelector(".select-options").style.maxHeight = null;
+  }
+});
+
+// gpt select
