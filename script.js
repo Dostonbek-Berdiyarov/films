@@ -4,7 +4,8 @@ let elMovieList = document.querySelector("#js-movie-list"),
   elSearchBtn = elSearchForm.querySelector("#js-search-btn"),
   record = new webkitSpeechRecognition(),
   elSelect = elSearchForm.querySelector("#js-select"),
-  elSelectList = elSearchForm.querySelector("#js-custom-select-list");
+  elSelectList = elSearchForm.querySelector("#js-custom-select-list"),
+  elSelectAllItems = document.querySelectorAll(`${elSelectList} li`);
 
 elSearchForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -110,26 +111,24 @@ elSelectList.addEventListener("click", (event) => {
 
 let previousSelectedOption = null;
 
-document
-  .querySelector(".select-selected")
-  .addEventListener("click", function () {
-    const selectBox = this.parentNode;
-    const optionsList = selectBox.querySelector(".select-options");
+elSelect.addEventListener("click", function () {
+  const selectBox = this.parentNode;
+  const optionsList = selectBox.querySelector(".select-options");
 
-    if (optionsList.children.length === 0) {
-      return;
-    }
+  if (optionsList.children.length === 0) {
+    return;
+  }
 
-    selectBox.classList.toggle("active");
+  selectBox.classList.toggle("active");
 
-    if (selectBox.classList.contains("active")) {
-      optionsList.style.maxHeight = optionsList.scrollHeight + "px";
-    } else {
-      optionsList.style.maxHeight = null;
-    }
-  });
+  if (selectBox.classList.contains("active")) {
+    optionsList.style.maxHeight = optionsList.scrollHeight + "px";
+  } else {
+    optionsList.style.maxHeight = null;
+  }
+});
 
-document.querySelectorAll(".select-options li").forEach(function (option) {
+elSelectAllItems.forEach(function (option) {
   option.addEventListener("click", function () {
     const selectBox = this.closest(".custom-select");
     const selectedText = selectBox.querySelector(".select-selected");
