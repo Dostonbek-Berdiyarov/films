@@ -5,7 +5,7 @@ let elMovieList = document.querySelector("#js-movie-list"),
   record = new webkitSpeechRecognition(),
   elSelect = elSearchForm.querySelector("#js-select"),
   elSelectList = elSearchForm.querySelector("#js-custom-select-list"),
-  elSelectAllItems = elSelectList.querySelectorAll("li");
+  elSelectAllItems = document.querySelectorAll(".select-options li");
 
 elSearchForm.addEventListener("submit", (evt) => {
   evt.preventDefault();
@@ -128,26 +128,29 @@ elSelect.addEventListener("click", function () {
   }
 });
 
-elSelectAllItems.forEach(function (option) {
+document.querySelectorAll(".select-options li").forEach(function (option) {
   option.addEventListener("click", function () {
     const selectBox = this.closest(".custom-select");
     const selectedText = selectBox.querySelector(".select-selected");
+
     if (previousSelectedOption) {
       previousSelectedOption.style.display = "block";
     }
+
     selectedText.textContent = this.textContent;
     this.style.display = "none";
     previousSelectedOption = this;
+
     selectBox.classList.remove("active");
     selectBox.querySelector(".select-options").style.maxHeight = null;
   });
 });
 
 document.addEventListener("click", function (event) {
-  const selectBox = document.querySelector(".custom-select");
-
-  if (!event.target.closest(".custom-select")) {
-    selectBox.classList.remove("active");
-    selectBox.querySelector(".select-options").style.maxHeight = null;
-  }
+  document.querySelectorAll(".custom-select").forEach(function (selectBox) {
+    if (!selectBox.contains(event.target)) {
+      selectBox.classList.remove("active");
+      selectBox.querySelector(".select-options").style.maxHeight = null;
+    }
+  });
 });
