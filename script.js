@@ -1,4 +1,4 @@
-var elMovieList = document.querySelector("#js-movie-list"),
+let elMovieList = document.querySelector("#js-movie-list"),
   elSearchForm = document.querySelector("#js-search-form"),
   elSearchInput = elSearchForm.querySelector("#js-search"),
   elSearchBtn = elSearchForm.querySelector("#js-search-btn"),
@@ -13,7 +13,7 @@ elSearchForm.addEventListener("submit", (evt) => {
 function displayFilms(filmsToDisplay) {
   elMovieList.innerHTML = "";
   for (const film of filmsToDisplay) {
-    var newItem = document.createElement("li"),
+    let newItem = document.createElement("li"),
       newFilmDate = document.createElement("span"),
       newImg = document.createElement("img"),
       newWrapper = document.createElement("div"),
@@ -21,7 +21,7 @@ function displayFilms(filmsToDisplay) {
       newTitle = document.createElement("h3"),
       newText = document.createElement("p");
 
-    var date = new Date(film.release_date);
+    let date = new Date(film.release_date);
     newFilmDate.textContent = date.getFullYear();
     newImg.src = film.poster;
     newImg.alt = `${film.title}'s poster`;
@@ -45,8 +45,8 @@ function displayFilms(filmsToDisplay) {
 }
 
 elSearchInput.addEventListener("input", () => {
-  var searchInputValue = elSearchInput.value;
-  var filteredFilms = films.filter(function (film) {
+  let searchInputValue = elSearchInput.value;
+  let filteredFilms = films.filter(function (film) {
     return film.title.match(new RegExp(searchInputValue, "gi"));
   });
   displayFilms(filteredFilms);
@@ -59,9 +59,9 @@ elSearchBtn.addEventListener("click", () => {
   elSearchBtn.style.borderColor = "red";
 });
 record.onresult = function (evt) {
-  var result = evt.results["0"]["0"].transcript;
+  let result = evt.results["0"]["0"].transcript;
   elSearchInput.value = result;
-  var filteredFilmsOnSpeach = films.filter(function (film) {
+  let filteredFilmsOnSpeach = films.filter(function (film) {
     return film.title.match(new RegExp(elSearchInput.value, "gi"));
   });
   displayFilms(filteredFilmsOnSpeach);
@@ -71,7 +71,7 @@ record.onend = function () {
   elSearchBtn.style.borderColor = "#ffffffc5";
 };
 
-var unicGenres = ["All"];
+let unicGenres = ["All"];
 
 films.forEach((item) => {
   item.genres.forEach((answer) => {
@@ -82,13 +82,31 @@ films.forEach((item) => {
 });
 
 for (const genre of unicGenres) {
-  var newSelectItem = document.createElement("li");
+  let newSelectItem = document.createElement("li");
+  newSelectItem.classList.add("childItem");
   newSelectItem.textContent = genre;
   elSelectList.appendChild(newSelectItem);
 }
-elSelect.addEventListener("MutationObserver", () => {});
 
-//  gpt select
+elSelectList.addEventListener("click", (event) => {
+  if (event.target.textContent == "All") {
+    let filteredFilmsFromSelect = films.filter(function (film) {
+      return film;
+    });
+    displayFilms(filteredFilmsFromSelect);
+  } else {
+    const filteredFilmsFromSelectRegex = new RegExp(
+      event.target.textContent,
+      "gi"
+    );
+    let filteredFilmsFromSelect = films.filter(function (film) {
+      return film.genres.some((genre) =>
+        genre.match(filteredFilmsFromSelectRegex)
+      );
+    });
+    displayFilms(filteredFilmsFromSelect);
+  }
+});
 
 let previousSelectedOption = null;
 
@@ -99,7 +117,7 @@ document
     const optionsList = selectBox.querySelector(".select-options");
 
     if (optionsList.children.length === 0) {
-      return; // Прерываем выполнение, если список пуст
+      return;
     }
 
     selectBox.classList.toggle("active");
@@ -115,22 +133,12 @@ document.querySelectorAll(".select-options li").forEach(function (option) {
   option.addEventListener("click", function () {
     const selectBox = this.closest(".custom-select");
     const selectedText = selectBox.querySelector(".select-selected");
-
-    // Вернуть предыдущую выбранную опцию в список
     if (previousSelectedOption) {
       previousSelectedOption.style.display = "block";
     }
-
-    // Обновление текста выбранной опции
     selectedText.textContent = this.textContent;
-
-    // Скрыть выбранную опцию
     this.style.display = "none";
-
-    // Сохранить ссылку на текущую выбранную опцию
     previousSelectedOption = this;
-
-    // Закрытие списка
     selectBox.classList.remove("active");
     selectBox.querySelector(".select-options").style.maxHeight = null;
   });
@@ -144,5 +152,3 @@ document.addEventListener("click", function (event) {
     selectBox.querySelector(".select-options").style.maxHeight = null;
   }
 });
-
-// gpt select
